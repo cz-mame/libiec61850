@@ -1,5 +1,7 @@
 name: Build libiec61850
 on: [push]
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # vynutí použití Node.js 24
 jobs:
   build-windows:
     runs-on: windows-latest
