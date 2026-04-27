@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Configure
         run: cmake -DBUILD_SHARED_LIBS=ON -B build .
@@ -36,14 +36,14 @@ jobs:
 
       - name: Upload Windows DLL
         if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: libiec61850-windows
           path: build/**/*.dll
 
       - name: Upload Linux SO
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: libiec61850-linux
           path: build/**/*.so
