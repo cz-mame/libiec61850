@@ -1,18 +1,18 @@
 name: Build libiec61850
 on: [push]
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+env: 
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - name: Configure
         run: cmake -DBUILD_SHARED_LIBS=ON -B build .
       - name: Build
         run: cmake --build build --config Release
       - name: Upload DLL
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: libiec61850-windows
           path: build/Release/libiec61850.dll
@@ -20,13 +20,13 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - name: Configure
         run: cmake -DBUILD_SHARED_LIBS=ON -B build .
       - name: Build
         run: cmake --build build
       - name: Upload SO
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: libiec61850-linux
           path: build/libiec61850.so
