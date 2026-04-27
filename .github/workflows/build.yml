@@ -1,49 +1,32 @@
 name: Build libiec61850
-
-on:
-  push:
-
-# vynucení Node 24 pro všechny JavaScript actions
+on: [push]
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
-  build:
-    name: Build on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-
+  build-windows:
+    runs-on: windows-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
+      - uses: actions/checkout@v6
       - name: Configure
         run: cmake -DBUILD_SHARED_LIBS=ON -B build .
-
       - name: Build
         run: cmake --build build --config Release
-
-      - name: Debug build output (Windows)
-        if: runner.os == 'Windows'
-        run: dir build /s
-
-      - name: Debug build output (Linux)
-        if: runner.os == 'Linux'
-        run: find build
-
-      - name: Upload Windows DLL
-        if: runner.os == 'Windows'
+      - name: Upload DLL
         uses: actions/upload-artifact@v6
         with:
           name: libiec61850-windows
-          path: build/**/*.dll
+          path: build/Release/libiec61850.dll
 
-      - name: Upload Linux SO
-        if: runner.os == 'Linux'
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Configure
+        run: cmake -DBUILD_SHARED_LIBS=ON -B build .
+      - name: Build
+        run: cmake --build build
+      - name: Upload SO
         uses: actions/upload-artifact@v6
         with:
           name: libiec61850-linux
-          path: build/**/*.so
+          path: build/libiec61850.so
