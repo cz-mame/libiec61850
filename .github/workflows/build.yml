@@ -15,7 +15,7 @@ jobs:
         uses: actions/upload-artifact@v7.0.1
         with:
           name: libiec61850-windows
-          path: build/**
+          path: build/src/Release/**
 
   build-linux:
     runs-on: ubuntu-latest
@@ -29,4 +29,4 @@ jobs:
         uses: actions/upload-artifact@v7.0.1
         with:
           name: libiec61850-linux
-          path: build/**
+          path: build/src/**
